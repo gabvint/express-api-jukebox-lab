@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(methodOverride('_method'))
 
 // Routes go here
-app.use('/jukebox', jukeboxRouter)
+app.use('/tracks', jukeboxRouter)
 
 app.listen(3000, () => {
   console.log('The express app is ready!');
