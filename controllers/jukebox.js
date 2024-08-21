@@ -23,7 +23,7 @@ router.get('/:trackId', async (req, res) => {
             res.status(404); 
             throw new Error('Track not found')
         }
-        
+
         const foundTrack = await Track.findById(req.params.trackId)
         res.status(200).json(foundTrack)
     } catch (error) {
@@ -45,6 +45,48 @@ router.post('/', async (req, res) => {
         res.status(500).json( {error: error.message })
     }
 })
+
+// delete track 
+router.delete('/:trackId', async (req, res) => {
+    try {
+
+        if(!mongoose.isValidObjectId(req.params.trackId)){
+            res.status(404); 
+            throw new Error('Track not found')
+        }
+        const foundTrack = await Track.findByIdAndDelete(req.params.trackId)
+        res.status(200).json(foundTrack)
+
+    } catch (error) {
+        if (res.statusCode === 404){
+            res.json({error: error.message})
+        } else {
+            res.status(500).json( {error: error.message }) 
+        }
+    }
+})
+
+// update a track
+
+router.put('/:trackId', async function (req, res) {
+    try {
+        if(!mongoose.isValidObjectId(req.params.trackId)){
+            res.status(404); 
+            throw new Error('Track not found')
+        }
+        const foundTrack = await Track.findByIdAndUpdate(req.params.trackId, req.body, {
+            new: true,
+        })
+        res.status(200).json(foundTrack)
+    } catch (error) {
+        if (res.statusCode === 404){
+            res.json({error: error.message})
+        } else {
+            res.status(500).json( {error: error.message }) 
+        }
+    }
+})
+
 
 
 
